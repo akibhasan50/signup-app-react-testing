@@ -38,7 +38,7 @@ function App() {
           <label htmlFor="email" className="form-label">
             Email address
           </label>
-          <input
+             <input
             type="email"
             id="email"
             name="email"
