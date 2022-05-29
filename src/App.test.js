@@ -188,5 +188,58 @@ it("should show email error message on invalid email", () => {
   expect(emailErrorMsg).not.toBeInTheDocument();
   userEvent.type(emailElement, "akibgmail.com");
   userEvent.click(submitBtnElement);
-  expect(emailErrorMsg).toBeInTheDocument();
+  const emailErrorMsgAgain = screen.queryByText(
+    /The email you input is invalid./i
+  );
+  expect(emailErrorMsgAgain).toBeInTheDocument();
+});
+it("should show password error message on less than 5 characters", () => {
+  render(<App></App>);
+  const emailErrorMsg = screen.queryByText(/The email you input is invalid./i);
+  const passErrorMsg = screen.queryByText(
+    /The password you entered should contain 5 or more characters./i
+  );
+  const emailElement = screen.getByRole("textbox", {
+    name: /email/i,
+  });
+  const passElement = screen.getByLabelText("Password");
+
+  const submitBtnElement = screen.getByRole("button", {
+    name: /submit/i,
+  });
+
+  expect(emailErrorMsg).not.toBeInTheDocument();
+  expect(passErrorMsg).not.toBeInTheDocument();
+  userEvent.type(emailElement, "akib@gmail.com");
+  userEvent.type(passElement, "123");
+  userEvent.click(submitBtnElement);
+  const passErrorMsgAgain = screen.queryByText(
+    /The password you entered should contain 5 or more characters./i
+  );
+  expect(passErrorMsgAgain).toBeInTheDocument();
+});
+it("should show password error message on password  not matching", () => {
+  render(<App></App>);
+  const emailErrorMsg = screen.queryByText(/The email you input is invalid./i);
+  const confpassErrorMsg = screen.queryByText(
+    /The passwords don't match. Try again./i
+  );
+  const emailElement = screen.getByRole("textbox", {
+    name: /email/i,
+  });
+  const passElement = screen.getByLabelText("Password");
+
+  const submitBtnElement = screen.getByRole("button", {
+    name: /submit/i,
+  });
+
+  expect(emailErrorMsg).not.toBeInTheDocument();
+  expect(confpassErrorMsg).not.toBeInTheDocument();
+  userEvent.type(emailElement, "akib@gmail.com");
+  userEvent.type(passElement, "123234");
+  userEvent.click(submitBtnElement);
+  const confpassErrorMsgAgain = screen.queryByText(
+    /The passwords don't match. Try again./i
+  );
+  expect(confpassErrorMsgAgain).toBeInTheDocument();
 });
